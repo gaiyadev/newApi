@@ -14,5 +14,12 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return $router->app->version() . "<br/>" .  "<br/>" . "Developed by Gaiyadev";
+});
+
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post("register", 'UserController@register');
+    $router->post("login", 'UserController@login');
+
 });
