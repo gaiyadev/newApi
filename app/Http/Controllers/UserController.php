@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -19,18 +20,16 @@ class UserController extends Controller
         ]);
 
         try {
-
             $user = new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->password = $request->input('password');
             $user->save();
-
             //return successful response
-            return response()->json(['user' => $user, 'message' => 'Account created successfully'], 201);
+            return response()->json(['user' => $user, 'message' => 'Account created successfully', 'status' => true], 201);
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'User Registration Failed!'], 409);
+            return response()->json(['message' => 'Account Registration Failed!', 'status' => true], 409);
         }
     }
     // login 
@@ -39,8 +38,15 @@ class UserController extends Controller
     {
         //validate incoming request 
         $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|string',
+            'password' => 'required|string',
         ]);
+
+        $credentials = $request->only(['email', 'password']);
+
+        if (!$token = Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Username or Password is in valid'], 401);
+        }
+        return $this->respondWithToken($token);
     }
 }
