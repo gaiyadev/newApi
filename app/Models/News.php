@@ -15,8 +15,8 @@ class News extends Model
         'title', 'body', 'imgURL'
     ];
 
-    // public function setEmailAttribute($value)
-    // { 
-    //     $this->attributes['title'] = ucfirst($value);
-    // }
+    public function setTitleAttribute($value)
+    { 
+        $this->attributes['title'] = ucfirst($value);
+    }
 }

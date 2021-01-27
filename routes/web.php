@@ -26,4 +26,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get("", 'NewsController@index');
     $router->put("{id}", 'NewsController@update');
     $router->delete("{id}", 'NewsController@destroy');
+    $router->get("user/{id}", 'ProfileController@index');
+   // $router->get("auth", 'ProfileController@userNews');
 });
