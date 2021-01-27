@@ -29,7 +29,7 @@ class UserController extends Controller
             return response()->json(['user' => $user, 'message' => 'Account created successfully', 'status' => true], 201);
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'Account Registration Failed!', 'status' => true], 409);
+            return response()->json(['message' => 'Account Registration Failed!', 'status' => false], 409);
         }
     }
     // login 

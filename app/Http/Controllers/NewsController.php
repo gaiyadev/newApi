@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\News;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -14,7 +16,9 @@ class NewsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+         $this->middleware('auth', ['except' => ['index', 'show','update','destroy']]);
+       //  $this->middleware('auth');
+
     }
     /**
      * Display a listing of the resource.
@@ -24,8 +28,9 @@ class NewsController extends Controller
 
     public function index()
     {
-        return ['fff', 'ggg'];
-    }
+        $news = News::all();
+        return response()->json(['news' => $news, 'status' => true], 200);   
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +39,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //Not usefull
+        //
     }
 
     /**
@@ -45,8 +50,27 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return 'store';
+        //validate incoming request 
+        $this->validate($request, [
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'imgURL' => 'required|string',
+        ]);
+
+           $user = Auth::user()->id;
+        try {
+            $news = new News;
+            $news->title = $request->input('title');
+            $news->body = $request->input('body');
+            $news->imgURL = $request->input('imgURL');
+            $news->user_id = $user;
+            $news->save();
+            //return successful response
+            return response()->json(['news' => $news, 'message' => 'News created successfully', 'status' => true], 201);
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'News Registration Failed!', 'status' => false], 409);
+        }
     }
 
     /**
@@ -58,7 +82,10 @@ class NewsController extends Controller
     public function show($id)
     {
         //
-        return $id;
+
+        $news = News::find($id);
+        if(!$news)  return response()->json(['message' => 'Mot record found!', 'status' => false], 404);
+        return response()->json(['news' => $news, 'status' => true], 200);   
     }
 
     /**
@@ -82,7 +109,25 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $id;
+         //validate incoming request 
+        $this->validate($request, [
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'imgURL' => 'required|string',
+        ]);
+
+        try {
+            $news =  News::find($id);
+            $news->title = $request->input('title');
+            $news->body = $request->input('body');
+            $news->imgURL = $request->input('imgURL');
+            $news->save();
+            //return successful response
+            return response()->json(['news' => $news, 'message' => 'News upda successfully', 'status' => true], 201);
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'News Registration Failed!', 'status' => false], 409);
+        }
     }
 
     /**
@@ -93,6 +138,12 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        return $id;
+        $news =  news::find($id);
+        if(!$news)  {
+            return response()->json(['message' => 'Mot record found!', 'status' => false], 404);
+        }
+        $news->delete();
+        return response()->json(['news' => $news, 'message'=> 'News deleted successfully', 'status' => true], 200);   
+
     }
 }

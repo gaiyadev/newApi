@@ -23,6 +23,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post("login", 'UserController@login');
     $router->post("add", 'NewsController@store');
     $router->get("{id}", 'NewsController@show');
+    $router->get("", 'NewsController@index');
     $router->put("{id}", 'NewsController@update');
     $router->delete("{id}", 'NewsController@destroy');
 });
