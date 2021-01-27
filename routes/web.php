@@ -21,5 +21,8 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post("register", 'UserController@register');
     $router->post("login", 'UserController@login');
-
+    $router->post("add", 'NewsController@store');
+    $router->get("{id}", 'NewsController@show');
+    $router->put("{id}", 'NewsController@update');
+    $router->delete("{id}", 'NewsController@destroy');
 });

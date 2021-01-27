@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     //
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['title'] = ucfirst($value);
+    }
 }

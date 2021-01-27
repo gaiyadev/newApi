@@ -40,6 +40,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
+
+    //accessor
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -59,4 +69,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+
+
+    //relationship method naming must be single
+    // public function Appointment()
+    // {
+    //     return $this->hasMany('App\Appointment');
+    // }
 }

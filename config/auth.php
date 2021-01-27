@@ -1,4 +1,3 @@
-//config.auth.php
 
 <?php
 

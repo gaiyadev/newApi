@@ -7,13 +7,24 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        return ['fff', 'ggg'];
     }
 
     /**
@@ -23,7 +34,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        //Not usefull
     }
 
     /**
@@ -35,6 +46,7 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         //
+        return 'store';
     }
 
     /**
@@ -46,6 +58,7 @@ class NewsController extends Controller
     public function show($id)
     {
         //
+        return $id;
     }
 
     /**
@@ -57,6 +70,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         //
+        // not user full/
     }
 
     /**
@@ -68,7 +82,7 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $id;
     }
 
     /**
@@ -79,6 +93,6 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $id;
     }
 }
